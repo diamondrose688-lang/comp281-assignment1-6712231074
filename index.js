@@ -30,6 +30,10 @@ function main(ev) {
 		ctx.fillStyle = config.bgColor;
 		ctx.fillRect(0, 0, config.width, config.height);
 
+
+		//วาดภูเขาปิ้วว
+		//รูปภูเขาเเรกกกกกก
+
 		ctx.beginPath();
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 4;
@@ -41,6 +45,7 @@ function main(ev) {
 		ctx.fill();
 		ctx.stroke();
 
+		//รูปภูเขาที่่สองง
 		ctx.beginPath();
 		ctx.moveTo(300, 200);
 		ctx.bezierCurveTo(600, -150, 500, 300, 800, 80);
@@ -54,7 +59,7 @@ function main(ev) {
 		ctx.stroke();
 		ctx.closePath();
 
-
+   //วาดพระอาทิตย์กับเติมฟิลสนามหญ้าข้างล่าล่าง
 		ctx.beginPath();
 		ctx.arc(301, 50, 30, 0, Math.PI * 2);
 		ctx.fillStyle = "orange";
@@ -62,21 +67,109 @@ function main(ev) {
 		ctx.fillStyle = "rgba(78, 163, 97, 1)";
 		ctx.fillRect(0, 200, 800, 600);
 
+		//วาดแม่น้ำคงคา555555555
 		ctx.beginPath();
-ctx.moveTo(300, 200);
-ctx.bezierCurveTo(100, 500, 600, 500, 280, 600);
-ctx.lineTo(560, 600); 
-ctx.bezierCurveTo(600, 500, 200, 400, 500, 200); 
-ctx.fillStyle = "rgba(124, 223, 218, 1)"; 
-ctx.fill();
-ctx.strokeStyle = "black";
-ctx.lineWidth = 4;
-ctx.stroke();
+		ctx.moveTo(300, 200);
+		ctx.bezierCurveTo(100, 500, 600, 500, 280, 600);
+		ctx.lineTo(560, 600); 
+		ctx.bezierCurveTo(600, 500, 200, 400, 500, 200); 
+		ctx.fillStyle = "rgba(124, 223, 218, 1)"; 
+		ctx.fill();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.stroke();
 
-		// ใช้ภาพจาก MP1-app-กราฟิกส์-2D.jpg เป็นแนวทางในการวาดรูป แต่จะวาดอย่างไรก็ได้ตามต้องการ
 
-		// TODO:
+		//ส่วนของการวาดบ้านน
+
+		//ชิ้นส่วนตัวบ้าน 1
+		ctx.beginPath();
+		ctx.moveTo(480,300);
+		ctx.lineTo(480,370);
+		ctx.lineTo(580,370);
+		ctx.lineTo(580,300);
+		ctx.closePath();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.stroke();
+		ctx.fillStyle = "rgba(102, 88, 74, 1)";
+		ctx.fill();
+
+		//ชิ้นส่วนหลังคาบ้าน 1
+		ctx.beginPath();
+		ctx.moveTo(480,300);
+		ctx.lineTo(530,250);
+		ctx.lineTo(580,300);
+		ctx.closePath();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.stroke();
+		ctx.fillStyle = "rgba(221, 109, 94, 1)";
+		ctx.fill();
+
+		//ชิ้นส่วนตัวบ้าน 2
+		ctx.beginPath();
+		ctx.moveTo(650,300);
+		ctx.lineTo(650,370);
+		ctx.lineTo(580,370);
+		ctx.lineTo(580,300);
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fillStyle = "rgba(102, 88, 74, 1)";
+		ctx.fill();
+
+		//ชิ้นส่วนหลังคาบ้าน 2
+		ctx.beginPath();
+		ctx.moveTo(530,250);
+		ctx.lineTo(650,250);
+		ctx.lineTo(650,300);
+		ctx.lineTo(580,300);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fillStyle = "rgba(221, 109, 94, 1)";
+		ctx.fill();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+
+		//ส่วนประตูบ้าน
+		ctx.beginPath();
+		ctx.moveTo(520,370);
+		ctx.lineTo(520,340);
+		ctx.lineTo(540,340);
+		ctx.lineTo(540,370); 
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fillStyle = "rgba(0, 0, 0, 1)";
+		ctx.fill();
+
+		//วาดหน้าต่่างบ้าน
+		ctx.beginPath();
+		ctx.moveTo(630,350);
+		ctx.lineTo(610,350);
+		ctx.lineTo(610,330);
+		ctx.lineTo(630,330);
+		ctx.closePath();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fillStyle = "rgba(0, 0, 0, 1)";
+		ctx.fill();
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 
 		// เขตสิ้นสุดของการวาดรูป
 
