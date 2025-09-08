@@ -14,7 +14,7 @@ function main(ev) {
 	const config = {
 		width : 800,
 		height : 600,
-		bgColor : "white",
+		bgColor : "skyblue",
 		debug : true,
 	};
 
@@ -30,8 +30,50 @@ function main(ev) {
 		ctx.fillStyle = config.bgColor;
 		ctx.fillRect(0, 0, config.width, config.height);
 
-		// วาดรูปจากส่วนนี้ไป **แนะนำให้วาดจากรูปที่อยู่ด้านหลังไปด้านหน้าตามลำดับ**
-		// ใช้ภาพจาก MP1-app-graphics-2d.jpg เป็นแนวทางในการวาดรูป แต่จะวาดอย่างไรก็ได้ตามต้องการ
+		ctx.beginPath();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.moveTo(0,180);
+		ctx.quadraticCurveTo(150,-100,300,200);
+		ctx.lineTo(0,200);
+		ctx.closePath();
+		ctx.fillStyle = "green";
+		ctx.fill();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(300, 200);
+		ctx.bezierCurveTo(600, -150, 500, 300, 800, 80);
+		ctx.lineTo(800, 200);
+		ctx.lineTo(300, 200);
+		ctx.closePath();
+		ctx.fillStyle = "green";
+		ctx.fill();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.stroke();
+		ctx.closePath();
+
+
+		ctx.beginPath();
+		ctx.arc(301, 50, 30, 0, Math.PI * 2);
+		ctx.fillStyle = "orange";
+		ctx.fill();	
+		ctx.fillStyle = "rgba(78, 163, 97, 1)";
+		ctx.fillRect(0, 200, 800, 600);
+
+		ctx.beginPath();
+ctx.moveTo(300, 200);
+ctx.bezierCurveTo(100, 500, 600, 500, 280, 600);
+ctx.lineTo(560, 600); 
+ctx.bezierCurveTo(600, 500, 200, 400, 500, 200); 
+ctx.fillStyle = "rgba(124, 223, 218, 1)"; 
+ctx.fill();
+ctx.strokeStyle = "black";
+ctx.lineWidth = 4;
+ctx.stroke();
+
+		// ใช้ภาพจาก MP1-app-กราฟิกส์-2D.jpg เป็นแนวทางในการวาดรูป แต่จะวาดอย่างไรก็ได้ตามต้องการ
 
 		// TODO:
 		
