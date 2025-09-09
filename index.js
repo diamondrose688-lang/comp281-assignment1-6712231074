@@ -209,7 +209,33 @@ function main(ev) {
 		ctx.stroke();
 		ctx.fillStyle = "rgba(150, 115, 79, 1)";
 		ctx.fill();
+
 		
+		//วาดนก
+		ctx.beginPath();
+		ctx.moveTo(610,80);
+		ctx.quadraticCurveTo(615,60,620,80);
+		ctx.quadraticCurveTo(625,60,630,80);
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 1;
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(650,90);
+		ctx.quadraticCurveTo(655,70,660,90);
+		ctx.quadraticCurveTo(665,70,670,90);
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 1;
+		ctx.stroke();
+
+
+		ctx.beginPath();
+		ctx.moveTo(690,70);
+		ctx.quadraticCurveTo(695,50,700,70);
+		ctx.quadraticCurveTo(705,50,710,70);
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 1;
+		ctx.stroke();
 
 		//วาดก้อนเมฆ
 		ctx.beginPath();
