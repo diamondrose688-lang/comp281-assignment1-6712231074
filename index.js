@@ -18,7 +18,6 @@ function main(ev) {
 		mousePos.y = evt.offsetY;
 	});
 
-	// ตัวแปรสำหรับเก็บตำแหน่งแกน X ของวัตถุ (ถ้ามีการเคลื่อนที่)
 	
 	let cloudX = 650; // ตำแหน่งเริ่มต้นของเมฆ
 	let cloudSpeed = 0.5; // ความเร็วเมฆ
@@ -214,7 +213,7 @@ function main(ev) {
 
 		//วาดก้อนเมฆ
 		ctx.beginPath();
-		ctx.moveTo(cloudX, 60); // ใช้ cloudX แทนตำแหน่งคงที่
+		ctx.moveTo(cloudX, 60); // ใช้ cloudX แทนตำแหน่งคงที่ แล้วบวกค่า ของเคิฟจาก ค่าคงที่ของ x เอา
 		ctx.quadraticCurveTo(cloudX + 10, 30, cloudX + 50, 50);  
 		ctx.quadraticCurveTo(cloudX + 100, 35, cloudX + 85, 70); 
 		ctx.quadraticCurveTo(cloudX + 70, 80, cloudX + 50, 70);
@@ -222,9 +221,12 @@ function main(ev) {
 		ctx.closePath();
 		ctx.fillStyle = "white";
 		ctx.fill();
-		cloudX += cloudSpeed;
-		if (cloudX > config.width + 100) {
-		cloudX = -100; // รีเซ็ตกลับทางซ้ายเมื่อเมฆพ้นจอ
+
+		//ตำเเหน่งของเมฆ
+		cloudX += cloudSpeed; //ให้ตำเเหน่งของเมฆเพิ่มขึ้นตามความเร็วที่เรากำหนดไว้ตั้งเเต่ต้น
+		//ถ้าเมฆพ้นจอให้รีเซ็ตตำเเหน่งกลับมาซ้าย
+		if (cloudX > config.width + 100) { //ถ้ามันเกินกว่าความกว้างของจอ +100 จุด
+		cloudX = -100; // รีเซ็ตกลับทางซ้าย -100 จุด
 		}
 
 
