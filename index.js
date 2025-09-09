@@ -1,4 +1,4 @@
-import { getContext, FPS } from "./utils-module.js";
+import { getContext, FPS,mouse } from "./utils-module.js";
 
 // กำหนดชื่อเรื่องของเอกสาร HTML
 document.title = "A01 - App Graphics 2D";
@@ -10,6 +10,19 @@ function main(ev) {
 	// เข้าถึง context ของ canvas ที่มี id เป็น "myCanvas"
 	const ctx = getContext("#myCanvas");
 
+	//ทำเมาส์ไว้หาพิกัด
+	let mousePos = {x:0,y:0};
+	// อัปเดตตำแหน่งเมาส์เมื่อมีการเคลื่อนที่
+	document.addEventListener("mousemove", function(evt){
+		mousePos.x = evt.offsetX;
+		mousePos.y = evt.offsetY;
+	});
+
+	// ตัวแปรสำหรับเก็บตำแหน่งแกน X ของวัตถุ (ถ้ามีการเคลื่อนที่)
+	
+	let cloudX = 650; // ตำแหน่งเริ่มต้นของเมฆ
+	let cloudSpeed = 0.5; // ความเร็วเมฆ
+	
 	// กำหนดค่าเริ่มต้นสำหรับแอปพลิเคชันในรูปแบบของอ็อบเจกต์ config
 	const config = {
 		width : 800,
@@ -17,6 +30,7 @@ function main(ev) {
 		bgColor : "skyblue",
 		debug : true,
 	};
+
 
 	// กำหนดขนาดของ canvas ตามค่า config
 	ctx.canvas.width = config.width;
@@ -30,7 +44,10 @@ function main(ev) {
 		ctx.fillStyle = config.bgColor;
 		ctx.fillRect(0, 0, config.width, config.height);
 
-
+		//ทำตัวเเสดงพิกัดบนจอ
+		ctx.font = "15px Arial";
+		ctx.fillStyle = "black";
+		ctx.fillText(`Mouse: ${mousePos.x},${mousePos.y}`, 680, 20);
 		//วาดภูเขาปิ้วว
 		//รูปภูเขาเเรกกกกกก
 
@@ -160,16 +177,56 @@ function main(ev) {
 		ctx.fillStyle = "rgba(0, 0, 0, 1)";
 		ctx.fill();
 		
+		//วาดต้นไม้
 		
 		
+		//ใบไม้
+		ctx.beginPath();
+		ctx.moveTo(85,370);
+		ctx.quadraticCurveTo(20,320,60,310);
+		ctx.quadraticCurveTo(50,240,100,290);
+		ctx.quadraticCurveTo(120,210,150,290);
+		ctx.quadraticCurveTo(190,240,190,310);
+		ctx.quadraticCurveTo(220,320,150,370);
+		ctx.closePath();
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 4;
+		ctx.stroke();
+		ctx.fillStyle = "rgba(0, 255, 0, 1)";
+		ctx.fill();
+
+		//ลำต้น
+		ctx.beginPath();
+		ctx.lineWidth = 4;
+		ctx.strokeStyle = "black";
+		ctx.moveTo(80,450);
+		ctx.quadraticCurveTo(120,400,80,350);
+		ctx.lineTo(110,370);
+		ctx.lineTo(120,340);
+		ctx.lineTo(130,370);
+		ctx.lineTo(160,340);
+		ctx.quadraticCurveTo(120,400,160,450);
+		ctx.closePath();
+		ctx.stroke();
+		ctx.fillStyle = "rgba(150, 115, 79, 1)";
+		ctx.fill();
 		
-		
-		
-		
-		
-		
-		
-	
+
+		//วาดก้อนเมฆ
+		ctx.beginPath();
+		ctx.moveTo(cloudX, 60); // ใช้ cloudX แทนตำแหน่งคงที่
+		ctx.quadraticCurveTo(cloudX + 10, 30, cloudX + 50, 50);  
+		ctx.quadraticCurveTo(cloudX + 100, 35, cloudX + 85, 70); 
+		ctx.quadraticCurveTo(cloudX + 70, 80, cloudX + 50, 70);
+		ctx.quadraticCurveTo(cloudX + 20, 80, cloudX, 60);
+		ctx.closePath();
+		ctx.fillStyle = "white";
+		ctx.fill();
+		cloudX += cloudSpeed;
+		if (cloudX > config.width + 100) {
+		cloudX = -100; // รีเซ็ตกลับทางซ้ายเมื่อเมฆพ้นจอ
+		}
+
 
 		// เขตสิ้นสุดของการวาดรูป
 
