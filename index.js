@@ -1,4 +1,4 @@
-import { getContext, FPS,mouse } from "./utils-module.js";
+import { getContext, FPS } from "./utils-module.js";
 
 // กำหนดชื่อเรื่องของเอกสาร HTML
 document.title = "A01 - App Graphics 2D";
@@ -10,7 +10,7 @@ function main(ev) {
 	// เข้าถึง context ของ canvas ที่มี id เป็น "myCanvas"
 	const ctx = getContext("#myCanvas");
 
-	//ทำเมาส์ไว้หาพิกัด
+	
 	let mousePos = {x:0,y:0};
 	// อัปเดตตำแหน่งเมาส์เมื่อมีการเคลื่อนที่
 	document.addEventListener("mousemove", function(evt){
@@ -18,9 +18,13 @@ function main(ev) {
 		mousePos.y = evt.offsetY;
 	});
 
-	
+	//พื้นที่กำหนดตัวแปร
+	let angel = 0; //มุมของการหมุน
 	let cloudX = 650; // ตำแหน่งเริ่มต้นของเมฆ
 	let cloudSpeed = 0.5; // ความเร็วเมฆ
+	//ทำเมาส์ไว้หาพิกัด
+	
+
 	
 	// กำหนดค่าเริ่มต้นสำหรับแอปพลิเคชันในรูปแบบของอ็อบเจกต์ config
 	const config = {
@@ -46,7 +50,7 @@ function main(ev) {
 		//ทำตัวเเสดงพิกัดบนจอ
 		ctx.font = "15px Arial";
 		ctx.fillStyle = "black";
-		ctx.fillText(`Mouse: ${mousePos.x},${mousePos.y}`, 680, 20);
+		ctx.fillText(`Mouse: ${mousePos.x},${mousePos.y}`, 300, 20);
 		//วาดภูเขาปิ้วว
 		//รูปภูเขาเเรกกกกกก
 
@@ -75,11 +79,58 @@ function main(ev) {
 		ctx.stroke();
 		ctx.closePath();
 
-   //วาดพระอาทิตย์กับเติมฟิลสนามหญ้าข้างล่าล่าง
+   //วาดพระอาทิตย์
 		ctx.beginPath();
-		ctx.arc(301, 50, 30, 0, Math.PI * 2);
-		ctx.fillStyle = "orange";
-		ctx.fill();	
+		ctx.arc(300, 80, 20, 0, Math.PI * 2);
+		ctx.fillStyle = "rgba(172, 27, 7, 1)";
+		ctx.fill();
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = 4;
+		ctx.stroke();
+		ctx.closePath();
+
+		//ส่วนแฉกพระอาทิตย์
+		ctx.save(); // เก็บสถานะก่อนแปลงพิกัด
+		ctx.translate(300, 80); // ย้าย origin ไปจุดกลางพระอาทิตย์
+		ctx.rotate(angel);      // หมุนตามมุม angel
+		ctx.translate(-300, -80); // ย้ายกลับเพื่อวาดจากพิกัดเดิม
+
+		// วาดแฉกพระอาทิตย์
+		ctx.beginPath();
+		ctx.moveTo(265,35);
+		ctx.lineTo(280,51);
+		ctx.lineTo(290,30);
+		ctx.lineTo(300,51);
+		ctx.lineTo(310,30);
+		ctx.lineTo(320,51);
+		ctx.lineTo(335,35);
+		ctx.lineTo(330,67);
+		ctx.lineTo(350,65);
+		ctx.lineTo(330,80);
+		ctx.lineTo(350,95);
+		ctx.lineTo(330,93);
+		ctx.lineTo(335,125);
+		ctx.lineTo(320,110);
+		ctx.lineTo(310,130);
+		ctx.lineTo(300,110);
+		ctx.lineTo(290,130);
+		ctx.lineTo(280,110);
+		ctx.lineTo(265,125);
+		ctx.lineTo(270,93);
+		ctx.lineTo(250,95);
+		ctx.lineTo(270,80);
+		ctx.lineTo(250,65);
+		ctx.lineTo(270,67);
+		ctx.closePath();
+		ctx.fillStyle = "rgba(250, 225, 64, 0.5)";
+		ctx.fill();
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = 2;
+		ctx.stroke();
+		ctx.restore(); // คืนค่าพิกัดเดิม
+		
+		
+		//เติมฟิลสนามหญ้าข้างล่าล่าง
 		ctx.fillStyle = "rgba(78, 163, 97, 1)";
 		ctx.fillRect(0, 200, 800, 600);
 
@@ -148,6 +199,7 @@ function main(ev) {
 		ctx.fill();
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 4;
+	
 
 		//ส่วนประตูบ้าน
 		ctx.beginPath();
@@ -168,15 +220,12 @@ function main(ev) {
 		ctx.lineTo(610,350);
 		ctx.lineTo(610,330);
 		ctx.lineTo(630,330);
-		ctx.closePath();
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 4;
 		ctx.closePath();
 		ctx.stroke();
 		ctx.fillStyle = "rgba(0, 0, 0, 1)";
 		ctx.fill();
-		
-		//วาดต้นไม้
 		
 		
 		//ใบไม้
@@ -209,7 +258,14 @@ function main(ev) {
 		ctx.stroke();
 		ctx.fillStyle = "rgba(150, 115, 79, 1)";
 		ctx.fill();
+		
+		
 
+		//สะพาน
+		ctx.fillStyle = "rgba(85, 39, 7, 1)";
+		ctx.fillRect(330, 530, 220, -50);
+		ctx.fillRect(330, 500, -50, 30);
+		ctx.fillRect(550, 500, 50, 30);
 		
 		//วาดนก
 		ctx.beginPath();
@@ -219,7 +275,6 @@ function main(ev) {
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 1;
 		ctx.stroke();
-
 		ctx.beginPath();
 		ctx.moveTo(650,90);
 		ctx.quadraticCurveTo(655,70,660,90);
@@ -227,8 +282,6 @@ function main(ev) {
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 1;
 		ctx.stroke();
-
-
 		ctx.beginPath();
 		ctx.moveTo(690,70);
 		ctx.quadraticCurveTo(695,50,700,70);
@@ -236,6 +289,7 @@ function main(ev) {
 		ctx.strokeStyle = "black";
 		ctx.lineWidth = 1;
 		ctx.stroke();
+
 
 		//วาดก้อนเมฆ
 		ctx.beginPath();
@@ -255,6 +309,7 @@ function main(ev) {
 		cloudX = -100; // รีเซ็ตกลับทางซ้าย -100 จุด
 		}
 
+		
 
 		// เขตสิ้นสุดของการวาดรูป
 
@@ -263,6 +318,7 @@ function main(ev) {
 		if (config.debug) FPS.show(ctx, 10, 28);
 
 		// ใช้ requestAnimationFrame เพื่อเรียกใช้ฟังก์ชัน draw ต่อไป
+		angel += 0.002;
 		requestAnimationFrame(draw);
 	}
 	// เริ่มต้นการวาดภาพบน canvas
