@@ -351,7 +351,7 @@ function main(ev) {
     
 
 		
-		// เขตสิ้นสุดของการวาดรูป
+		
 
 
 		// แสดงข้อความ FPS บน canvas ถ้า config.debug เป็น true
