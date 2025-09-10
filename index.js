@@ -230,8 +230,8 @@ ctx.shadowBlur = 0;
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // โค้ดสำหรับทำเส้นน้ำไหลเป็นเลข 3
-const time = Date.now() / 100; // ควบคุมความเร็วในการไหล
+  // เส้นน้ำไหล
+const time = Date.now() / 100; // ความเร็วในการไหล
 ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
 ctx.lineWidth = 2;
 
