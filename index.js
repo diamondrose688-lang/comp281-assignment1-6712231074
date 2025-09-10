@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", main);
 function main(ev) {
 	// เข้าถึง context ของ canvas ที่มี id เป็น "myCanvas"
 	const ctx = getContext("#myCanvas");
-
-	
+    
+	//ทำเมาส์ไว้หาพิกัด
 	let mousePos = {x:0,y:0};
 	// อัปเดตตำแหน่งเมาส์เมื่อมีการเคลื่อนที่
 	document.addEventListener("mousemove", function(evt){
@@ -18,27 +18,56 @@ function main(ev) {
 		mousePos.y = evt.offsetY;
 	});
 
-	//พื้นที่กำหนดตัวแปร
-	let angel = 0; //มุมของการหมุน
-	let cloudX = 650; // ตำแหน่งเริ่มต้นของเมฆ
-	let cloudSpeed = 0.5; // ความเร็วเมฆ
-	//ทำเมาส์ไว้หาพิกัด
-	
-
-	
 	// กำหนดค่าเริ่มต้นสำหรับแอปพลิเคชันในรูปแบบของอ็อบเจกต์ config
 	const config = {
 		width : 800,
 		height : 600,
-		bgColor : "skyblue",
+		bgColor : "rgba(30, 157, 207, 0.7)",
 		debug : true,
 	};
-
 
 	// กำหนดขนาดของ canvas ตามค่า config
 	ctx.canvas.width = config.width;
 	ctx.canvas.height = config.height;
 
+
+    // สร้าง Cloud
+    class Cloud {
+        constructor(x, y, speed) {
+            this.x = x;
+            this.y = y;
+            this.speed = speed;
+        }
+
+        render(ctx) {
+			
+            //  Cloud
+			ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 40, 0, Math.PI * 2);
+            ctx.arc(this.x + 40, this.y + 10, 30, 0, Math.PI * 2);
+            ctx.arc(this.x - 30, this.y + 10, 25, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        update() {
+            this.x -= this.speed;
+            if (this.x < -200) {
+                this.x = 800;
+                this.y = Math.random() * 150;
+            }
+        }
+    }
+
+    // ออบเจกต์ก้อนเมฆ
+    const myCloud = new Cloud(700, 50, 0.75);
+
+	let sunAngle = 0;
+const sunRadius = 20;
+const centerX = 580;
+const centerY = 60;
+	
 	function draw() {
 		// ใช้ FPS สำหรับการวัดอัตราเฟรมต่อวินาที
 		FPS.update();
@@ -47,268 +76,244 @@ function main(ev) {
 		ctx.fillStyle = config.bgColor;
 		ctx.fillRect(0, 0, config.width, config.height);
 
+		// อัปเดตและวาดพระอาทิตย์
+sunAngle += 0.005;
+const sunX = centerX + Math.cos(sunAngle) * sunRadius;
+const sunY = centerY + Math.sin(sunAngle) * sunRadius;
+
 		//ทำตัวเเสดงพิกัดบนจอ
 		ctx.font = "15px Arial";
 		ctx.fillStyle = "black";
-		ctx.fillText(`Mouse: ${mousePos.x},${mousePos.y}`, 300, 20);
-		//วาดภูเขาปิ้วว
-		//รูปภูเขาเเรกกกกกก
+		ctx.fillText(`Mouse: ${mousePos.x},${mousePos.y}`, 680, 20);
+		
 
+		//น้องภูเขา
 		ctx.beginPath();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.moveTo(0,180);
-		ctx.quadraticCurveTo(150,-100,300,200);
-		ctx.lineTo(0,200);
-		ctx.closePath();
-		ctx.fillStyle = "green";
-		ctx.fill();
-		ctx.stroke();
-
-		//รูปภูเขาที่่สองง
-		ctx.beginPath();
-		ctx.moveTo(300, 200);
-		ctx.bezierCurveTo(600, -150, 500, 300, 800, 80);
-		ctx.lineTo(800, 200);
-		ctx.lineTo(300, 200);
-		ctx.closePath();
-		ctx.fillStyle = "green";
-		ctx.fill();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.stroke();
-		ctx.closePath();
-
-   //วาดพระอาทิตย์
-		ctx.beginPath();
-		ctx.arc(300, 80, 20, 0, Math.PI * 2);
-		ctx.fillStyle = "rgba(172, 27, 7, 1)";
-		ctx.fill();
-		ctx.strokeStyle = "red";
-		ctx.lineWidth = 4;
-		ctx.stroke();
-		ctx.closePath();
-
-		//ส่วนแฉกพระอาทิตย์
-		ctx.save(); // เก็บสถานะก่อนแปลงพิกัด
-		ctx.translate(300, 80); // ย้าย origin ไปจุดกลางพระอาทิตย์
-		ctx.rotate(angel);      // หมุนตามมุม angel
-		ctx.translate(-300, -80); // ย้ายกลับเพื่อวาดจากพิกัดเดิม
-
-		// วาดแฉกพระอาทิตย์
-		ctx.beginPath();
-		ctx.moveTo(265,35);
-		ctx.lineTo(280,51);
-		ctx.lineTo(290,30);
-		ctx.lineTo(300,51);
-		ctx.lineTo(310,30);
-		ctx.lineTo(320,51);
-		ctx.lineTo(335,35);
-		ctx.lineTo(330,67);
-		ctx.lineTo(350,65);
-		ctx.lineTo(330,80);
-		ctx.lineTo(350,95);
-		ctx.lineTo(330,93);
-		ctx.lineTo(335,125);
-		ctx.lineTo(320,110);
-		ctx.lineTo(310,130);
-		ctx.lineTo(300,110);
-		ctx.lineTo(290,130);
-		ctx.lineTo(280,110);
-		ctx.lineTo(265,125);
-		ctx.lineTo(270,93);
-		ctx.lineTo(250,95);
-		ctx.lineTo(270,80);
-		ctx.lineTo(250,65);
-		ctx.lineTo(270,67);
-		ctx.closePath();
-		ctx.fillStyle = "rgba(250, 225, 64, 0.5)";
-		ctx.fill();
-		ctx.strokeStyle = "red";
+		ctx.moveTo(0,200);
+		ctx.quadraticCurveTo(200, -50, 300, 200);
+		ctx.quadraticCurveTo(400, -50, 600, 200);
+		ctx.quadraticCurveTo(700., -80, 850, 200);
+	    ctx.strokeStyle = "black";
 		ctx.lineWidth = 2;
+		ctx.closePath();
 		ctx.stroke();
-		ctx.restore(); // คืนค่าพิกัดเดิม
+		ctx.fillStyle = "green";
+        ctx.fill();
+
 		
-		
-		//เติมฟิลสนามหญ้าข้างล่าล่าง
-		ctx.fillStyle = "rgba(78, 163, 97, 1)";
-		ctx.fillRect(0, 200, 800, 600);
-
-		//วาดแม่น้ำคงคา555555555
-		ctx.beginPath();
-		ctx.moveTo(300, 200);
-		ctx.bezierCurveTo(100, 500, 600, 500, 280, 600);
-		ctx.lineTo(560, 600); 
-		ctx.bezierCurveTo(600, 500, 200, 400, 500, 200); 
-		ctx.fillStyle = "rgba(124, 223, 218, 1)"; 
-		ctx.fill();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.stroke();
 
 
-		//ส่วนของการวาดบ้านน
+		//พื้นหญ้า
+        
+		ctx.fillStyle = "rgba(179, 123, 20, 0.71)";
+		ctx.fillRect(0, 200, 800, 400);
 
-		//ชิ้นส่วนตัวบ้าน 1
-		ctx.beginPath();
-		ctx.moveTo(480,300);
-		ctx.lineTo(480,370);
-		ctx.lineTo(580,370);
-		ctx.lineTo(580,300);
-		ctx.closePath();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.stroke();
-		ctx.fillStyle = "rgba(102, 88, 74, 1)";
-		ctx.fill();
-
-		//ชิ้นส่วนหลังคาบ้าน 1
-		ctx.beginPath();
-		ctx.moveTo(480,300);
-		ctx.lineTo(530,250);
-		ctx.lineTo(580,300);
-		ctx.closePath();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.stroke();
-		ctx.fillStyle = "rgba(221, 109, 94, 1)";
-		ctx.fill();
-
-		//ชิ้นส่วนตัวบ้าน 2
-		ctx.beginPath();
-		ctx.moveTo(650,300);
-		ctx.lineTo(650,370);
-		ctx.lineTo(580,370);
-		ctx.lineTo(580,300);
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fillStyle = "rgba(102, 88, 74, 1)";
-		ctx.fill();
-
-		//ชิ้นส่วนหลังคาบ้าน 2
-		ctx.beginPath();
-		ctx.moveTo(530,250);
-		ctx.lineTo(650,250);
-		ctx.lineTo(650,300);
-		ctx.lineTo(580,300);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fillStyle = "rgba(221, 109, 94, 1)";
-		ctx.fill();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-	
-
-		//ส่วนประตูบ้าน
-		ctx.beginPath();
-		ctx.moveTo(520,370);
-		ctx.lineTo(520,340);
-		ctx.lineTo(540,340);
-		ctx.lineTo(540,370); 
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fillStyle = "rgba(0, 0, 0, 1)";
-		ctx.fill();
-
-		//วาดหน้าต่่างบ้าน
-		ctx.beginPath();
-		ctx.moveTo(630,350);
-		ctx.lineTo(610,350);
-		ctx.lineTo(610,330);
-		ctx.lineTo(630,330);
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fillStyle = "rgba(0, 0, 0, 1)";
-		ctx.fill();
-		
-		
-		//ใบไม้
-		ctx.beginPath();
-		ctx.moveTo(85,370);
-		ctx.quadraticCurveTo(20,320,60,310);
-		ctx.quadraticCurveTo(50,240,100,290);
-		ctx.quadraticCurveTo(120,210,150,290);
-		ctx.quadraticCurveTo(190,240,190,310);
-		ctx.quadraticCurveTo(220,320,150,370);
-		ctx.closePath();
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 4;
-		ctx.stroke();
+		// ใบไม้
+	    ctx.beginPath();
+		ctx.arc(120, 300, 50, 0, Math.PI * 2); // ใบไม้
 		ctx.fillStyle = "rgba(0, 255, 0, 1)";
 		ctx.fill();
-
-		//ลำต้น
-		ctx.beginPath();
-		ctx.lineWidth = 4;
-		ctx.strokeStyle = "black";
-		ctx.moveTo(80,450);
-		ctx.quadraticCurveTo(120,400,80,350);
-		ctx.lineTo(110,370);
-		ctx.lineTo(120,340);
-		ctx.lineTo(130,370);
-		ctx.lineTo(160,340);
-		ctx.quadraticCurveTo(120,400,160,450);
+		ctx.strokeStyle = "rgba(0, 255, 0, 1)";
+		ctx.lineWidth = 2;
 		ctx.closePath();
 		ctx.stroke();
-		ctx.fillStyle = "rgba(150, 115, 79, 1)";
-		ctx.fill();
-		
-		
 
-		//สะพาน
-		ctx.fillStyle = "rgba(85, 39, 7, 1)";
-		ctx.fillRect(330, 530, 220, -50);
-		ctx.fillRect(330, 500, -50, 30);
-		ctx.fillRect(550, 500, 50, 30);
-		
-		//วาดนก
-		ctx.beginPath();
-		ctx.moveTo(610,80);
-		ctx.quadraticCurveTo(615,60,620,80);
-		ctx.quadraticCurveTo(625,60,630,80);
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 1;
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(650,90);
-		ctx.quadraticCurveTo(655,70,660,90);
-		ctx.quadraticCurveTo(665,70,670,90);
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 1;
-		ctx.stroke();
-		ctx.beginPath();
-		ctx.moveTo(690,70);
-		ctx.quadraticCurveTo(695,50,700,70);
-		ctx.quadraticCurveTo(705,50,710,70);
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 1;
-		ctx.stroke();
-
-
-		//วาดก้อนเมฆ
-		ctx.beginPath();
-		ctx.moveTo(cloudX, 60); // ใช้ cloudX แทนตำแหน่งคงที่ แล้วบวกค่า ของเคิฟจาก ค่าคงที่ของ x เอา
-		ctx.quadraticCurveTo(cloudX + 10, 30, cloudX + 50, 50);  
-		ctx.quadraticCurveTo(cloudX + 100, 35, cloudX + 85, 70); 
-		ctx.quadraticCurveTo(cloudX + 70, 80, cloudX + 50, 70);
-		ctx.quadraticCurveTo(cloudX + 20, 80, cloudX, 60);
+        // ลำต้น
+	    ctx.beginPath();
+		ctx.fillStyle = "brown";
+		ctx.fillRect(110, 300, 20, 100);
+		ctx.fillRect(120, 310, 40, 15);
 		ctx.closePath();
-		ctx.fillStyle = "white";
-		ctx.fill();
+		ctx.stroke();
 
-		//ตำเเหน่งของเมฆ
-		cloudX += cloudSpeed; //ให้ตำเเหน่งของเมฆเพิ่มขึ้นตามความเร็วที่เรากำหนดไว้ตั้งเเต่ต้น
-		//ถ้าเมฆพ้นจอให้รีเซ็ตตำเเหน่งกลับมาซ้าย
-		if (cloudX > config.width + 100) { //ถ้ามันเกินกว่าความกว้างของจอ +100 จุด
-		cloudX = -100; // รีเซ็ตกลับทางซ้าย -100 จุด
-		}
+		// วาดบ้าน 2 ชั้น พร้อมเส้นขอบทุกส่วน
+ctx.beginPath();
 
+// บ้าน 2 ชั้น
+ctx.fillStyle = "brown"; // กำหนดสีตัวบ้านเป็นสีน้ำตาล
+ctx.rect(400, 200, 150, 200); // วาดสี่เหลี่ยมสำหรับตัวบ้าน (x, y, width, height)
+ctx.fill(); // เติมสีตัวบ้าน
+ctx.strokeStyle = "black"; // กำหนดสีเส้นขอบเป็นสีดำ
+ctx.lineWidth = 2; // กำหนดความหนาของเส้นขอบ
+ctx.stroke(); // วาดเส้นขอบตัวบ้าน
+ctx.closePath(); // ปิด path สำหรับตัวบ้าน
+
+// หลังคา
+ctx.beginPath(); // เริ่ม path ใหม่สำหรับหลังคา
+ctx.moveTo(380, 200); // เริ่มวาดจากมุมซ้ายของหลังคา
+ctx.lineTo(570, 200); // วาดเส้นตรงไปยังมุมขวา
+ctx.lineTo(475, 120); // วาดเส้นไปยังจุดยอดของหลังคา
+ctx.closePath(); // ปิดเส้นทางเพื่อสร้างรูปสามเหลี่ยม
+ctx.fillStyle = "darkred"; // กำหนดสีหลังคาเป็นสีแดงเข้ม
+ctx.fill(); // เติมสีหลังคา
+ctx.strokeStyle = "black"; // กำหนดสีเส้นขอบเป็นสีดำ
+ctx.lineWidth = 2; // กำหนดความหนาของเส้นขอบ
+ctx.stroke(); // วาดเส้นขอบหลังคา
+
+// ประตู
+ctx.beginPath(); // เริ่ม path ใหม่สำหรับประตู
+ctx.fillStyle = "black"; // กำหนดสีประตูเป็นสีดำ
+ctx.rect(460, 350, 30, 50); // วาดสี่เหลี่ยมสำหรับประตู
+ctx.fill(); // เติมสีประตู
+ctx.strokeStyle = "rgba(122, 84, 57, 1)"; // กำหนดสีเส้นขอบเป็นสีน้ำตาล
+ctx.lineWidth = 2; // กำหนดความหนาของเส้นขอบ
+ctx.stroke(); // วาดเส้นขอบประตู
+ctx.closePath(); // ปิด path สำหรับประตู
+
+// หน้าต่างชั้นล่าง (บานซ้าย)
+ctx.beginPath();
+ctx.fillStyle = "lightblue"; // กำหนดสีหน้าต่างเป็นสีฟ้าอ่อน
+ctx.rect(420, 320, 25, 25);
+ctx.fill();
+ctx.strokeStyle = "rgba(122, 84, 57, 1)";
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.closePath();
+
+// หน้าต่างชั้นล่าง (บานขวา)
+ctx.beginPath();
+ctx.fillStyle = "lightblue";
+ctx.rect(510, 320, 25, 25);
+ctx.fill();
+ctx.strokeStyle = "rgba(122, 84, 57, 1)";
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.closePath();
+
+// หน้าต่างชั้นบน (บานซ้าย)
+ctx.beginPath();
+ctx.fillStyle = "lightblue";
+ctx.rect(420, 220, 25, 25);
+ctx.fill();
+ctx.strokeStyle = "rgba(122, 84, 57, 1)";
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.closePath();
+
+// หน้าต่างชั้นบน (บานขวา)
+ctx.beginPath();
+ctx.fillStyle = "lightblue";
+ctx.rect(510, 220, 25, 25);
+ctx.fill();
+ctx.strokeStyle = "rgba(122, 84, 57, 1)";
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.closePath();
+
+// พระอาทิตย์
+ctx.beginPath();
+ctx.arc(sunX, sunY, 50, 0, Math.PI * 2);
+ctx.shadowColor = "rgba(255, 255, 0, 0.8)";
+ctx.shadowBlur = 40;
+ctx.shadowOffsetX = 0;
+ctx.shadowOffsetY = 0;
+ctx.fillStyle = "yellow";
+ctx.fill();
+ctx.closePath();
+ctx.shadowColor = "rgba(0, 0, 0, 0)";
+ctx.shadowBlur = 0;
+
+// ก้อนเมฆ
+        myCloud.update();
+        myCloud.render(ctx);
+
+ // ลำธาร
+  ctx.beginPath();
+  ctx.moveTo(600, 200);
+  ctx.quadraticCurveTo(560, 250, 600, 400); 
+  ctx.lineTo(500, 600);
+  ctx.quadraticCurveTo(900, 800, 700, 200); 
+  ctx.closePath();
+  ctx.fillStyle = "blue";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(173, 125, 20, 0.9)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // โค้ดสำหรับทำเส้นน้ำไหลเป็นเลข 3
+const time = Date.now() / 100; // ควบคุมความเร็วในการไหล
+ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+ctx.lineWidth = 2;
+
+// Loop เพื่อวาดเส้นน้ำ 3 เส้น
+for (let i = 0; i < 3; i++) {
+    
+	
+	ctx.beginPath();
+	// คำนวณตำแหน่ง Y เริ่มต้นของแต่ละเส้นให้ไหลลงและวนกลับ
+    const startYOffset = (time % 230) - (i * 120);
+
+    // ส่วนโค้งเส้นน้ำ1
+    const startX = 650;
+    const startY = 445+ startYOffset;
+    
+    // ส่วนโค้งเส้นน้ำ2
+    ctx.moveTo(startX, startY);
+    ctx.quadraticCurveTo(
+        startX + 20, startY + 30,
+        startX, startY + 40
+    );
+
+    // ส่วนโค้งเส้นน้ำ3
+    ctx.quadraticCurveTo(
+        startX - 50, startY + 50,
+        startX, startY + 100
+    );
+
+    ctx.stroke();
+    ctx.closePath();
+}
+
+  // นา
+ctx.beginPath();
+ctx.fillStyle = "rgba(100, 149, 237, 0.8)"; // สีน้ำเงินอ่อนสำหรับน้ำในนา
+ctx.rect(50, 400, 200, 150); // วาดสี่เหลี่ยมผืนผ้าสำหรับนา
+ctx.fill();
+ctx.strokeStyle = "rgba(0, 0, 0, 0.3)"; // เส้นขอบสีดำจางๆ
+ctx.lineWidth = 1;
+ctx.stroke();
+ctx.closePath();
+
+// ต้นข้าว (ตำแหน่งที่ถูกต้อง)
+// ใช้ลูปซ้อนกัน 2 ชั้นเพื่อวาดต้นข้าวเป็นตาราง
+for (let i = 0; i < 7; i++) { //วนข้าวเเนวนอน
+    for (let j = 0; j < 5; j++) {  //วนข้าวเเนวตั้ง
+        // คำนวณตำแหน่ง x และ y สำหรับกอข้าวแต่ละกอ
+        const groupX = 65 + (i * 28);
+        const groupY = 430 + (j * 28);
+
+        // ต้นข้าว
+        ctx.strokeStyle = "rgba(248, 252, 3, 1)"; // สีก้านข้าว
+        ctx.lineWidth = 1; // ความหนาของเส้นก้านข้าว
+
+        for (let k = 0; k < 3; k++) { // วาด 3-5 เส้นต่อ 1 กอ
+            ctx.beginPath();
+            
+			// เส้นก้านข้าว
+            const startX = groupX + (k * 2) - 2;
+            const startY = groupY;
+            const controlX = startX + (k % 2 === 0 ? 5 : -5); // ทำให้โค้งสลับข้าง
+            const controlY = groupY - 35 - (k * 2); // จุดควบคุมที่สูงขึ้น
+            const endX = startX + (k % 2 === 0 ? 3 : -3);
+            const endY = groupY - 15 - (k * 3); // ปลายก้านข้าว
+			ctx.moveTo(startX, startY);
+            ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+            ctx.stroke();
+
+        
+        }
+    }
+}
+
+    
+
+		
+
+
+		// วาดรูปจากส่วนนี้ไป **แนะนำให้วาดจากรูปที่อยู่ด้านหลังไปด้านหน้าตามลำดับ**
+		// ใช้ภาพจาก MP1-app-graphics-2d.jpg เป็นแนวทางในการวาดรูป แต่จะวาดอย่างไรก็ได้ตามต้องการ
+
+		// TODO:
 		
 
 		// เขตสิ้นสุดของการวาดรูป
@@ -318,7 +323,6 @@ function main(ev) {
 		if (config.debug) FPS.show(ctx, 10, 28);
 
 		// ใช้ requestAnimationFrame เพื่อเรียกใช้ฟังก์ชัน draw ต่อไป
-		angel += 0.002;
 		requestAnimationFrame(draw);
 	}
 	// เริ่มต้นการวาดภาพบน canvas
